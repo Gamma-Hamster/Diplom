@@ -66,17 +66,21 @@
 				</v8:item>
 			</title>
 		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Сотрудник</dataPath>
+			<field>Сотрудник</field>
+		</field>
 		<dataSource>ИсточникДанных1</dataSource>
 		<query>ВЫБРАТЬ РАЗЛИЧНЫЕ
 	ВКМ_ГрафикОтпусковОтпускаСотрудников.ДатаНачала КАК ДатаНачалаПлан,
 	ВКМ_ГрафикОтпусковОтпускаСотрудников.ДатаОкончания КАК ДатаОкончанияПлан,
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.Дней КАК ДнейПлан
+	ВКМ_ГрафикОтпусковОтпускаСотрудников.Дней КАК ДнейПлан,
+	ВКМ_ГрафикОтпусковОтпускаСотрудников.Сотрудник КАК Сотрудник
 ПОМЕСТИТЬ вт_План
 ИЗ
 	Документ.ВКМ_ГрафикОтпусков.ОтпускаСотрудников КАК ВКМ_ГрафикОтпусковОтпускаСотрудников
 ГДЕ
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.Сотрудник = &amp;Сотрудник
-	И ВКМ_ГрафикОтпусковОтпускаСотрудников.Ссылка.Год = &amp;Год
+	ВКМ_ГрафикОтпусковОтпускаСотрудников.Ссылка.Год = &amp;Год
 
 ИНДЕКСИРОВАТЬ ПО
 	ДатаНачалаПлан,
@@ -88,13 +92,13 @@
 ВЫБРАТЬ
 	ВКМ_НачислениеОтпускных.ДатаНачала КАК ДатаНачалаФакт,
 	ВКМ_НачислениеОтпускных.ДатаОкончания КАК ДатаОкончанияФакт,
-	ВКМ_НачислениеОтпускных.ДнейОтпуска КАК ДнейФакт
+	ВКМ_НачислениеОтпускных.ДнейОтпуска КАК ДнейФакт,
+	ВКМ_НачислениеОтпускных.Сотрудник КАК Сотрудник
 ПОМЕСТИТЬ вт_Факт
 ИЗ
 	Документ.ВКМ_НачислениеОтпускных КАК ВКМ_НачислениеОтпускных
 ГДЕ
-	ВКМ_НачислениеОтпускных.Сотрудник = &amp;Сотрудник
-	И ВКМ_НачислениеОтпускных.Год = &amp;Год
+	ВКМ_НачислениеОтпускных.Год = &amp;Год
 
 ИНДЕКСИРОВАТЬ ПО
 	ДатаНачалаФакт,
@@ -109,7 +113,8 @@
 	вт_План.ДнейПлан КАК ДнейПлан,
 	NULL КАК ДатаНачалаФакт,
 	NULL КАК ДатаОкончанияФакт,
-	NULL КАК ДнейФакт
+	NULL КАК ДнейФакт,
+	вт_План.Сотрудник КАК Сотрудник
 ИЗ
 	вт_План КАК вт_План
 
@@ -121,7 +126,8 @@
 	NULL,
 	вт_Факт.ДатаНачалаФакт,
 	вт_Факт.ДатаОкончанияФакт,
-	вт_Факт.ДнейФакт
+	вт_Факт.ДнейФакт,
+	вт_Факт.Сотрудник
 ИЗ
 	вт_Факт КАК вт_Факт</query>
 	</dataSet>
@@ -143,25 +149,14 @@
 		<value xsi:type="xs:string"/>
 		<useRestriction>false</useRestriction>
 	</parameter>
-	<parameter>
-		<name>Сотрудник</name>
-		<title xsi:type="v8:LocalStringType">
-			<v8:item>
-				<v8:lang>ru</v8:lang>
-				<v8:content>Сотрудник</v8:content>
-			</v8:item>
-		</title>
-		<valueType>
-			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:CatalogRef.ВКМ_Сотрудники</v8:Type>
-		</valueType>
-		<value xsi:nil="true"/>
-		<useRestriction>false</useRestriction>
-	</parameter>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
 		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
 		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
 			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Сотрудник</dcsset:field>
+				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
 					<dcsset:field>ДатаНачалаПлан</dcsset:field>
 				</dcsset:item>
@@ -198,11 +193,6 @@
 					<dcscor:parameter>Год</dcscor:parameter>
 					<dcscor:value xsi:type="xs:string"/>
 					<dcsset:userSettingID>18808e89-460e-4de3-ae99-fd02428a49d2</dcsset:userSettingID>
-				</dcscor:item>
-				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
-					<dcscor:parameter>Сотрудник</dcscor:parameter>
-					<dcscor:value xsi:nil="true"/>
-					<dcsset:userSettingID>970ddd26-191e-495b-a601-5b884b2b0f35</dcsset:userSettingID>
 				</dcscor:item>
 			</dcsset:dataParameters>
 			<dcsset:item xsi:type="dcsset:StructureItemGroup">

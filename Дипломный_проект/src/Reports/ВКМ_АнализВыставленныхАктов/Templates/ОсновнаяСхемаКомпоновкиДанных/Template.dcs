@@ -7,34 +7,6 @@
 	<dataSet xsi:type="DataSetQuery">
 		<name>НаборДанных1</name>
 		<field xsi:type="DataSetFieldField">
-			<dataPath>Договор</dataPath>
-			<field>Договор</field>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>Документ</dataPath>
-			<field>Документ</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Документ</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>Контрагент</dataPath>
-			<field>Контрагент</field>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>СуммаВсего</dataPath>
-			<field>СуммаВсего</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Сумма всего</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
 			<dataPath>ИзНихРаботаСпециалиста</dataPath>
 			<field>ИзНихРаботаСпециалиста</field>
 			<title xsi:type="v8:LocalStringType">
@@ -43,6 +15,36 @@
 					<v8:content>Из них работа специалиста</v8:content>
 				</v8:item>
 			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Документ</dataPath>
+			<field>Документ</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Контрагент</dataPath>
+			<field>Контрагент</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Договор</dataPath>
+			<field>Договор</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаВсего</dataPath>
+			<field>СуммаВсего</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СуммаКОплатеКлиенту</dataPath>
+			<field>СуммаКОплатеКлиенту</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сумма к оплате клиенту</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЧасыКОплатеКлиенту</dataPath>
+			<field>ЧасыКОплатеКлиенту</field>
 		</field>
 		<dataSource>ИсточникДанных1</dataSource>
 		<query>ВЫБРАТЬ
@@ -59,9 +61,6 @@
 		ПО РеализацияТоваровУслуг.Товары.Номенклатура.Ссылка = ВКМ_НоменклатураРаботыСпециалиста.Значение.Ссылка
 ГДЕ
 	РеализацияТоваровУслуг.Дата МЕЖДУ &amp;НачалоПериода И &amp;КонецПериода
-
-ИНДЕКСИРОВАТЬ ПО
-	Ссылка
 ;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,21 +69,25 @@
 	вт_Промежуточная.Контрагент КАК Контрагент,
 	вт_Промежуточная.Договор КАК Договор,
 	вт_Промежуточная.СуммаВсего КАК СуммаВсего,
-	РеализацияТоваровУслугТовары.Сумма КАК ИзНихРаботаСпециалиста
+	РеализацияТоваровУслугТовары.Сумма КАК ИзНихРаботаСпециалиста,
+	СУММА(ВКМ_ОбслуживаниеКлиента.СуммаКОплате) КАК СуммаКОплатеКлиенту,
+	СУММА(ВКМ_ОбслуживаниеКлиентаВыполненныеРаботы.ЧасыКОплатеКлиенту) КАК ЧасыКОплатеКлиенту
 ИЗ
 	вт_Промежуточная КАК вт_Промежуточная
 		ЛЕВОЕ СОЕДИНЕНИЕ Документ.РеализацияТоваровУслуг.Товары КАК РеализацияТоваровУслугТовары
 		ПО вт_Промежуточная.НоменклатураКонстанта = РеализацияТоваровУслугТовары.Номенклатура
-		И вт_Промежуточная.Ссылка = РеализацияТоваровУслугТовары.Ссылка</query>
+		И вт_Промежуточная.Ссылка = РеализацияТоваровУслугТовары.Ссылка
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ВКМ_ОбслуживаниеКлиента КАК ВКМ_ОбслуживаниеКлиента
+		ПО вт_Промежуточная.Договор = ВКМ_ОбслуживаниеКлиента.Договор
+		ЛЕВОЕ СОЕДИНЕНИЕ Документ.ВКМ_ОбслуживаниеКлиента.ВыполненныеРаботы КАК ВКМ_ОбслуживаниеКлиентаВыполненныеРаботы
+		ПО вт_Промежуточная.Договор = ВКМ_ОбслуживаниеКлиентаВыполненныеРаботы.Ссылка.Договор
+СГРУППИРОВАТЬ ПО
+	вт_Промежуточная.Документ,
+	вт_Промежуточная.Контрагент,
+	вт_Промежуточная.Договор,
+	вт_Промежуточная.СуммаВсего,
+	РеализацияТоваровУслугТовары.Сумма</query>
 	</dataSet>
-	<totalField>
-		<dataPath>ИзНихРаботаСпециалиста</dataPath>
-		<expression>Сумма(ИзНихРаботаСпециалиста)</expression>
-	</totalField>
-	<totalField>
-		<dataPath>СуммаВсего</dataPath>
-		<expression>Сумма(СуммаВсего)</expression>
-	</totalField>
 	<parameter>
 		<name>НачалоПериода</name>
 		<title xsi:type="v8:LocalStringType">
@@ -99,7 +102,6 @@
 				<v8:DateFractions>DateTime</v8:DateFractions>
 			</v8:DateQualifiers>
 		</valueType>
-		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
 		<useRestriction>false</useRestriction>
 	</parameter>
 	<parameter>
@@ -113,10 +115,9 @@
 		<valueType>
 			<v8:Type>xs:dateTime</v8:Type>
 			<v8:DateQualifiers>
-				<v8:DateFractions>Date</v8:DateFractions>
+				<v8:DateFractions>DateTime</v8:DateFractions>
 			</v8:DateQualifiers>
 		</valueType>
-		<value xsi:type="xs:dateTime">0001-01-01T00:00:00</value>
 		<useRestriction>false</useRestriction>
 	</parameter>
 	<settingsVariant>
@@ -151,17 +152,33 @@
 						</v8:item>
 					</dcsset:lwsTitle>
 				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>СуммаКОплатеКлиенту</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сумма к оплате по документам Обслуживание</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЧасыКОплатеКлиенту</dcsset:field>
+					<dcsset:lwsTitle>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Часы к оплате по документам Обслуживание</v8:content>
+						</v8:item>
+					</dcsset:lwsTitle>
+				</dcsset:item>
 			</dcsset:selection>
 			<dcsset:dataParameters>
 				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
 					<dcscor:parameter>НачалоПериода</dcscor:parameter>
-					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
-					<dcsset:userSettingID>11c82288-9bee-4b8d-8338-613dc82cedd3</dcsset:userSettingID>
+					<dcsset:userSettingID>b2f8b931-cd8f-4045-aa4f-60ab0960e956</dcsset:userSettingID>
 				</dcscor:item>
 				<dcscor:item xsi:type="dcsset:SettingsParameterValue">
 					<dcscor:parameter>КонецПериода</dcscor:parameter>
-					<dcscor:value xsi:type="xs:dateTime">0001-01-01T00:00:00</dcscor:value>
-					<dcsset:userSettingID>09768a09-0695-4df1-a929-82f840debe6f</dcsset:userSettingID>
+					<dcsset:userSettingID>e47ce949-3034-4ab4-8d00-d1b5e2b65f0a</dcsset:userSettingID>
 				</dcscor:item>
 			</dcsset:dataParameters>
 			<dcsset:item xsi:type="dcsset:StructureItemGroup">

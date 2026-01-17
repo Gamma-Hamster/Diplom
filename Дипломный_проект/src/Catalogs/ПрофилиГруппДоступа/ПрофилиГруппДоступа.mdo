@@ -132,27 +132,6 @@
         <value></value>
       </code>
     </items>
-    <items id="4c4c1b46-0871-4fae-86c4-d72d365ba59e">
-      <name>ВКМ_БухгалтерИТФирмы</name>
-      <description>Бухгалтер ИТФирмы</description>
-      <code xsi:type="core:StringValue">
-        <value></value>
-      </code>
-    </items>
-    <items id="c823d8c4-2879-49a1-b2cf-a75b0bfdbbb9">
-      <name>ВКМ_Менеджер</name>
-      <description>Менеджер</description>
-      <code xsi:type="core:StringValue">
-        <value></value>
-      </code>
-    </items>
-    <items id="f98bc3a1-a4a3-4250-b468-ca193b87026a">
-      <name>ВКМ_Специалист</name>
-      <description>Специалист</description>
-      <code xsi:type="core:StringValue">
-        <value></value>
-      </code>
-    </items>
   </predefined>
   <editType>InDialog</editType>
   <choiceMode>BothWays</choiceMode>
