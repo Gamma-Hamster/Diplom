@@ -44,4 +44,6 @@
   <content>Report.ВКМ_РасчетыССотрудниками</content>
   <content>Report.ВКМ_РасходЗапланированныхОтпусков</content>
   <content>DataProcessor.ВКМ_ТестОтправкиВТелеграм</content>
+  <content>AccumulationRegister.ВКМ_ЗадолженностьПоРеализацииТоваров</content>
+  <content>AccumulationRegister.ВКМ_ОтпускаСотрудников</content>
 </mdclass:Subsystem>

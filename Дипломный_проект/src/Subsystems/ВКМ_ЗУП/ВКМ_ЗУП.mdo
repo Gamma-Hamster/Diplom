@@ -25,4 +25,5 @@
   <content>Document.ВКМ_ГрафикОтпусков</content>
   <content>Document.ВКМ_ВыплатаЗарплаты</content>
   <content>Catalog.ВКМ_Сотрудники</content>
+  <content>AccumulationRegister.ВКМ_ОтпускаСотрудников</content>
 </mdclass:Subsystem>

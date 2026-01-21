@@ -7,129 +7,59 @@
 	<dataSet xsi:type="DataSetQuery">
 		<name>НаборДанных1</name>
 		<field xsi:type="DataSetFieldField">
-			<dataPath>ДатаНачалаПлан</dataPath>
-			<field>ДатаНачалаПлан</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дата начала план</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>ДатаОкончанияПлан</dataPath>
-			<field>ДатаОкончанияПлан</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дата окончания план</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>ДнейПлан</dataPath>
-			<field>ДнейПлан</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дней план</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>ДнейФакт</dataPath>
-			<field>ДнейФакт</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дней факт</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>ДатаНачалаФакт</dataPath>
-			<field>ДатаНачалаФакт</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дата начала факт</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
-			<dataPath>ДатаОкончанияФакт</dataPath>
-			<field>ДатаОкончанияФакт</field>
-			<title xsi:type="v8:LocalStringType">
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дата окончания факт</v8:content>
-				</v8:item>
-			</title>
-		</field>
-		<field xsi:type="DataSetFieldField">
 			<dataPath>Сотрудник</dataPath>
 			<field>Сотрудник</field>
+			<role>
+				<dcscom:dimension>true</dcscom:dimension>
+			</role>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаНачала</dataPath>
+			<field>ДатаНачала</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ДатаОкончания</dataPath>
+			<field>ДатаОкончания</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Отпуск</dataPath>
+			<field>Отпуск</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Отпуск</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Дней</dataPath>
+			<field>Дней</field>
 		</field>
 		<dataSource>ИсточникДанных1</dataSource>
-		<query>ВЫБРАТЬ РАЗЛИЧНЫЕ
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.ДатаНачала КАК ДатаНачалаПлан,
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.ДатаОкончания КАК ДатаОкончанияПлан,
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.Дней КАК ДнейПлан,
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.Сотрудник КАК Сотрудник
-ПОМЕСТИТЬ вт_План
+		<query>ВЫБРАТЬ
+	ВКМ_ОтпускаСотрудников.Сотрудник КАК Сотрудник,
+	ВКМ_ОтпускаСотрудников.ДатаНачала КАК ДатаНачала,
+	ВКМ_ОтпускаСотрудников.ДатаОкончания КАК ДатаОкончания,
+	ВКМ_ОтпускаСотрудников.Дней КАК Дней,
+	"План" КАК Отпуск
 ИЗ
-	Документ.ВКМ_ГрафикОтпусков.ОтпускаСотрудников КАК ВКМ_ГрафикОтпусковОтпускаСотрудников
+	РегистрНакопления.ВКМ_ОтпускаСотрудников КАК ВКМ_ОтпускаСотрудников
 ГДЕ
-	ВКМ_ГрафикОтпусковОтпускаСотрудников.Ссылка.Год = &amp;Год
-
-ИНДЕКСИРОВАТЬ ПО
-	ДатаНачалаПлан,
-	ДатаОкончанияПлан,
-	ДнейПлан
-;
-
-////////////////////////////////////////////////////////////////////////////////
-ВЫБРАТЬ
-	ВКМ_НачислениеОтпускных.ДатаНачала КАК ДатаНачалаФакт,
-	ВКМ_НачислениеОтпускных.ДатаОкончания КАК ДатаОкончанияФакт,
-	ВКМ_НачислениеОтпускных.ДнейОтпуска КАК ДнейФакт,
-	ВКМ_НачислениеОтпускных.Сотрудник КАК Сотрудник
-ПОМЕСТИТЬ вт_Факт
-ИЗ
-	Документ.ВКМ_НачислениеОтпускных КАК ВКМ_НачислениеОтпускных
-ГДЕ
-	ВКМ_НачислениеОтпускных.Год = &amp;Год
-
-ИНДЕКСИРОВАТЬ ПО
-	ДатаНачалаФакт,
-	ДатаОкончанияФакт,
-	ДнейФакт
-;
-
-////////////////////////////////////////////////////////////////////////////////
-ВЫБРАТЬ
-	вт_План.ДатаНачалаПлан КАК ДатаНачалаПлан,
-	вт_План.ДатаОкончанияПлан КАК ДатаОкончанияПлан,
-	вт_План.ДнейПлан КАК ДнейПлан,
-	NULL КАК ДатаНачалаФакт,
-	NULL КАК ДатаОкончанияФакт,
-	NULL КАК ДнейФакт,
-	вт_План.Сотрудник КАК Сотрудник
-ИЗ
-	вт_План КАК вт_План
+	ВКМ_ОтпускаСотрудников.Регистратор.Год = &amp;Год
 
 ОБЪЕДИНИТЬ ВСЕ
 
 ВЫБРАТЬ
-	NULL,
-	NULL,
-	NULL,
-	вт_Факт.ДатаНачалаФакт,
-	вт_Факт.ДатаОкончанияФакт,
-	вт_Факт.ДнейФакт,
-	вт_Факт.Сотрудник
+	ВКМ_ОсновныеНачисления.Сотрудник,
+	ВКМ_ОсновныеНачисления.ПериодДействияНачало,
+	ВКМ_ОсновныеНачисления.ПериодДействияКонец,
+	РАЗНОСТЬДАТ(ВКМ_ОсновныеНачисления.ПериодДействияНачало, ВКМ_ОсновныеНачисления.ПериодДействияКонец, ДЕНЬ) + 1,
+	"Факт" КАК Отпуск
 ИЗ
-	вт_Факт КАК вт_Факт</query>
+	РегистрРасчета.ВКМ_ОсновныеНачисления КАК ВКМ_ОсновныеНачисления
+ГДЕ
+	ВКМ_ОсновныеНачисления.ВидРасчета = &amp;ВидРасчета
+	И ВКМ_ОсновныеНачисления.Регистратор.Год = &amp;Год</query>
 	</dataSet>
 	<parameter>
 		<name>Год</name>
@@ -149,6 +79,20 @@
 		<value xsi:type="xs:string"/>
 		<useRestriction>false</useRestriction>
 	</parameter>
+	<parameter>
+		<name>ВидРасчета</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Вид расчета</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:Type xmlns:d4p1="http://v8.1c.ru/8.1/data/enterprise/current-config">d4p1:ChartOfCalculationTypesRef.ВКМ_ОсновныеНачисления</v8:Type>
+		</valueType>
+		<value xsi:type="dcscor:DesignTimeValue">ПланВидовРасчета.ВКМ_ОсновныеНачисления.Отпуск</value>
+		<useRestriction>true</useRestriction>
+	</parameter>
 	<settingsVariant>
 		<dcsset:name>Основной</dcsset:name>
 		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
@@ -158,34 +102,16 @@
 					<dcsset:field>Сотрудник</dcsset:field>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДатаНачалаПлан</dcsset:field>
+					<dcsset:field>Отпуск</dcsset:field>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДатаОкончанияПлан</dcsset:field>
+					<dcsset:field>ДатаНачала</dcsset:field>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДнейПлан</dcsset:field>
-					<dcsset:lwsTitle>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Дней запланировано</v8:content>
-						</v8:item>
-					</dcsset:lwsTitle>
+					<dcsset:field>ДатаОкончания</dcsset:field>
 				</dcsset:item>
 				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДатаНачалаФакт</dcsset:field>
-				</dcsset:item>
-				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДатаОкончанияФакт</dcsset:field>
-				</dcsset:item>
-				<dcsset:item xsi:type="dcsset:SelectedItemField">
-					<dcsset:field>ДнейФакт</dcsset:field>
-					<dcsset:lwsTitle>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Дней использовано</v8:content>
-						</v8:item>
-					</dcsset:lwsTitle>
+					<dcsset:field>Дней</dcsset:field>
 				</dcsset:item>
 			</dcsset:selection>
 			<dcsset:dataParameters>
@@ -193,15 +119,36 @@
 					<dcscor:parameter>Год</dcscor:parameter>
 					<dcscor:value xsi:type="xs:string"/>
 					<dcsset:userSettingID>18808e89-460e-4de3-ae99-fd02428a49d2</dcsset:userSettingID>
+					<dcsset:userSettingPresentation xsi:type="v8:LocalStringType">
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Плановый год</v8:content>
+						</v8:item>
+					</dcsset:userSettingPresentation>
 				</dcscor:item>
 			</dcsset:dataParameters>
 			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:groupItems>
+					<dcsset:item xsi:type="dcsset:GroupItemField">
+						<dcsset:field>Сотрудник</dcsset:field>
+						<dcsset:groupType>Items</dcsset:groupType>
+						<dcsset:periodAdditionType>None</dcsset:periodAdditionType>
+					</dcsset:item>
+				</dcsset:groupItems>
 				<dcsset:order>
 					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
 				</dcsset:order>
 				<dcsset:selection>
 					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
 				</dcsset:selection>
+				<dcsset:item xsi:type="dcsset:StructureItemGroup">
+					<dcsset:order>
+						<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+					</dcsset:order>
+					<dcsset:selection>
+						<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+					</dcsset:selection>
+				</dcsset:item>
 			</dcsset:item>
 		</dcsset:settings>
 	</settingsVariant>
